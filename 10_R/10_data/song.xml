@@ -1,0 +1,19 @@
+<kpop>
+    <slist>
+        <song album="album1">
+            <singer>singer1</singer>
+            <title>title1</title>
+	<price>10000</price>	
+        </song>
+        <song album="album2">
+            <singer>singer2</singer>
+            <title>title2</title>
+	<price>15000</price>	
+        </song>
+        <song album="album3">
+            <singer>singer3</singer>
+            <title>title3</title>
+	<price>20000</price>	
+        </song>
+    </slist>
+</kpop>

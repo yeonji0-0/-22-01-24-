@@ -1,0 +1,13 @@
+"specie","condition","value"
+"sorgho","normal",31.1186674422023
+"sorgho","stress",14.7803177219009
+"sorgho","Nitrogen",0.0120749161343938
+"poacee","normal",11.1423144759276
+"poacee","stress",1.71209892337146
+"poacee","Nitrogen",2.71007591871139
+"banana","normal",16.0313433942254
+"banana","stress",20.3485780964237
+"banana","Nitrogen",1.78249637068286
+"triticum","normal",8.40845571942472
+"triticum","stress",13.1491065982536
+"triticum","Nitrogen",12.0353140771043
