@@ -1,0 +1,72 @@
+1. sudo apt install openssh-server openssh-client (인증키 등록 프로그램)
+
+2. su 로 로그인 
+/etc/hosts ( 마스터 슬레이브 모두)
+127.0.0.1	localhost
+#127.0.0.1	ubuntu
+192.x.x.x	master
+192.x.x.x	slave1
+192.x.x.x	slave2
+
+3. /etc/hostname  ==>master로
+/etc/hostname  ==>slave로
+리부팅할것
+
+4. master 파일 전체 복사 붙여넣기 slave 폴더에
+==========================
+5.
+master:인증키생성
+1) ssh-keygen -t rsa
+master인증
+2) cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
+ssh localhost
+mkdir .ssh (slave1 실행후)
+(마스터에서)
+scp ~/.ssh/id_rsa.pub mobile@slave1:/home/mobile/.ssh/authorized_keys
+ssh slave1 확인
+
+==== 하둡 멀티클러스터 설정 ===
+6. 
+namenode, datanode
+mkdir -p hadoop_store/hdfs/namenode
+#chown mobile:hadoop -R /home/mobile/hadoop_store/hdfs/namenode
+chmod 777 hadoop_store/hdfs/namenode
+mkdir -p hadoop_store/hdfs/datanode
+chmod 777 hadoop_store/hdfs/datanode 
+
+7. 하둡환경
+master  etc/hadoop 에 복사
+slave
+xml 복사
+
+8. hdfs namenode -format (하둡파일시스템으로) 한번만
+
+hadoop/sbin
+9. start-dfs.sh
+10. start-yarn.sh
+start-all.sh
+http://localhost:50070
+
+11. jps
+
+=========== spark 설치 ========================
+1. conf/spark-env.sh
+export SPARK_HOME=/home/mobile/spark-3.0.3-bin-hadoop2.7 
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+export SPARK_MASTER_IP=master
+
+SPARK_WORKER_INSTANCES=3
+SPARK_WORKER_CORES=2
+SPARK_WORKER_MEMORY=2g
+
+2. sbin/start-all.sh
+
+3. http://localhost:50070
+
+
+
+
+
+
+
+

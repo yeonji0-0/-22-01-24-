@@ -1,0 +1,200 @@
+vmware ubuntu 설치후
+
+ 
+
+1. sudo passwd root
+
+2. hadoop-2.10.1 
+
+3. spark-3.0.3-bin-hadoop2.7 
+
+4.sudo apt install openjdk-8-jdk
+
+(sudo rm /var/lib/apt/lists/lock
+
+sudo rm /var/cache/apt/archives/lock
+
+sudo rm /var/lib/dpkg/lock)
+
+5. sudo apt install net-tools
+
+6. .bashrc
+
+export HADOOP_HOME=/home/mobile/hadoop-2.10.1 
+export PATH=$PATH:$HADOOP_HOME/bin
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+export PYSPARK_PYTHON=python3
+export PYTHONPATH=$PYTHONPATH:/home/mobile/spark-3.0.3-bin-hadoop2.7/python
+export PYTHONPATH=$PYTHONPATH:/home/mobile/spark-3.0.3-bin-hadoop2.7/python/lib/py4j-0.10.7-src.zip
+
+alias cc="clear"
+
+
+멀티클러스터 설치
+
+
+7. sudo apt install openssh-server openssh-client
+
+ 
+
+(네트워크 않잡힐시)
+
+sudo apt-get install --reinstall network-manager
+
+slave1, slave2복사
+
+========================
+
+복사이후
+
+ 
+
+1. /etc/hosts ( 마스터 슬레이브 모두)
+
+ 
+
+127.0.0.1	localhost
+
+#127.0.0.1	ubuntu
+
+192.x.x.x	master
+
+192.x.x.x	slave1
+
+192.x.x.x	slave2
+
+ 
+
+2. /etc/hostname  ==>master로
+
+/etc/hostname  ==>slave로
+
+리부팅할것
+
+ 
+
+3. ping master  (slave에서)
+
+4. ping slave (master 에서)
+
+ 
+
+5.로그인 없이 실행
+
+ssh-keygen -t rsa
+
+cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
+
+ 
+
+ssh localhost
+
+ 
+
+mkdir .ssh (slave1 실행후)
+
+scp ~/.ssh/id_rsa.pub mobile@slave1:/home/mobile/.ssh/authorized_keys
+
+(마스터에서)
+
+ssh slave1 확인
+
+ 
+
+------------------ 
+
+ssh master 
+
+exit 
+
+ssh slave@slave
+
+스레이브
+
+-------------------
+
+ssh slave
+
+ssh master@master
+
+ 
+
+7. namenode, datanode
+
+mkdir -p hadoop_store/hdfs/namenode
+
+#chown mobile:hadoop -R /home/mobile/hadoop_store/hdfs/namenode
+
+chmod 777 hadoop_store/hdfs/namenode
+
+ 
+
+mkdir -p hadoop_store/hdfs/datanode
+
+chmod 777 hadoop_store/hdfs/datanode
+
+ 
+
+8. master, slave  xml copy
+
+ 
+
+9.hdfs namenode -format (하둡파일시스템으로) 한번만
+
+10. start-dfs.cmd
+
+11. start-yarn.cmd
+
+ 
+
+ http://localhost:50070
+
+==========스파크 설치==============
+
+1. conf/spark-env.sh
+
+export SPARK_HOME=/home/mobile/spark-2.3.3-bin-hadoop2.7 
+
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+
+export SPARK_MASTER_IP=master
+
+export HADOOP_CONF_DIR=/home/mobile/hadoop-2.7.7/etc/hadoop
+
+export YARN_CONF_DIR=/home/mobile/hadoop-2.7.7/etc/hadoop
+
+ 
+
+2. conf/slaves 
+
+master
+
+slave1
+
+#slave2
+
+ 
+
+3. sbin/start-all.sh 
+
+web master:8080 
+
+ 
+spark://master:7077 
+shell command
+===========================
+MASTER=spark://master:7077 ./pyspark 
+
+
+==================jupyter notebook
+1.sudo apt install python3-pip
+2. sudo -H pip install jupyter
+3. sudo apt install jupyter-core
+from notebook.auth import passwd
+passwd()
+jupyter notebook --generate-config 
+jupyter_notebook_computer에
+c.NotebookApp.password = u'sha1:1234' 
+서버실행 jupyter notebook --ip=0.0.0.0 --port=8001
+3. jupyter notebook --no-browser
+jupyter-notebook [-h] [--certfile NOTEBOOKAPP.CERTFILE] [--ip NOTEBOOKAPP.IP] [--pylab [NOTEBOOKAPP.PYLAB]] [--log-level NOTEBOOKAPP.LOG_LEVEL] [--port-retries NOTEBOOKAPP.PORT_RETRIES] [--notebook-dir NOTEBOOKAPP.NOTEBOOK_DIR] [--config NOTEBOOKAPP.CONFIG_FILE] [--keyfile NOTEBOOKAPP.KEYFILE] [--port NOTEBOOKAPP.PORT] [--transport KERNELMANAGER.TRANSPORT] [--browser NOTEBOOKAPP.BROWSER] [--script] [-y] [--no-browser] [--debug] [--no-mathjax] [--no-script] [--generate-config]
